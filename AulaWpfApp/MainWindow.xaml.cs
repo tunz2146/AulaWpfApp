@@ -7,6 +7,8 @@ namespace AulaWpfApp
     {
         private readonly AulaHidService _hidService = new AulaHidService();
 
+        private readonly AudioReactiveService _audioService = new AudioReactiveService();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -74,5 +76,54 @@ namespace AulaWpfApp
                 MessageBox.Show("Gửi lệnh thất bại.", "Test Custom Color", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private DateTime _lastRgbSendTime = DateTime.MinValue;
+private static readonly TimeSpan RgbSendInterval = TimeSpan.FromMilliseconds(33); // ~30 lần/giây
+
+private void TestAudio_Click(object sender, RoutedEventArgs e)
+{
+    if (_audioService.IsRunning)
+    {
+        _audioService.Stop();
+        _audioService.LevelChanged -= OnAudioLevelChanged;
+        AudioLevelText.Text = "Audio Level: (stopped)";
+        return;
+    }
+
+    if (!_hidService.IsConnected)
+    {
+        MessageBox.Show("Chưa kết nối bàn phím. Nhấn SCAN KEYBOARD trước.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+        return;
+    }
+
+    // Bật chế độ custom color 1 lần trước khi bắt đầu stream
+    _hidService.SendRgbReport(AulaHidService.BuildEnableCustomColorReport());
+
+    _audioService.LevelChanged += OnAudioLevelChanged;
+    _audioService.Start();
+}
+
+private void OnAudioLevelChanged(float level)
+{
+    Dispatcher.Invoke(() =>
+    {
+        AudioLevelText.Text = $"Audio Level: {level:F2}";
+        AudioLevelBar.Value = level;
+    });
+
+    // Giới hạn tốc độ gửi HID để không làm nghẽn bàn phím
+    var now = DateTime.Now;
+    if (now - _lastRgbSendTime < RgbSendInterval)
+    {
+        return;
+    }
+    _lastRgbSendTime = now;
+
+    // Màu xanh dương, độ sáng theo level (0-255)
+    byte brightness = (byte)(level * 255);
+    byte[] report = AulaHidService.BuildCustomColorReport(0, 0, brightness);
+    _hidService.SendRgbReport(report);
+}
+
     }
 }
