@@ -56,4 +56,61 @@
         <Setter Property="Height" Value="42"/>
     </Style>
 
+    <!-- Style Expander cho sidebar dạng xổ ra/thu gọn -->
+    <Style x:Key="GothicExpander" TargetType="Expander">
+        <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Expander">
+                    <StackPanel>
+                        <ToggleButton x:Name="HeaderButton" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" Height="42" Margin="15,4" Cursor="Hand">
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Border x:Name="border" Background="{StaticResource BgPanel}" BorderBrush="{StaticResource BorderMist}" BorderThickness="1" CornerRadius="4">
+                                        <Grid Margin="10,6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ContentPresenter Grid.Column="0" Content="{TemplateBinding Content}" ContentSource="Content" VerticalAlignment="Center"/>
+                                            <TextBlock x:Name="arrow" Grid.Column="1" Text="▸" Foreground="{StaticResource AccentGoldDim}" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource AccentGold}"/>
+                                            <Setter TargetName="border" Property="Background" Value="{StaticResource BgPanelLight}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter TargetName="arrow" Property="Text" Value="▾"/>
+                                            <Setter TargetName="arrow" Property="Foreground" Value="{StaticResource AccentGold}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                            <TextBlock Text="{TemplateBinding Header}" FontSize="14" Foreground="{StaticResource TextPrimary}"/>
+                        </ToggleButton>
+
+                        <ContentPresenter x:Name="ExpanderContent" Visibility="Collapsed" Margin="15,0,15,8"/>
+                    </StackPanel>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter TargetName="ExpanderContent" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Style nút mục con (thụt vào, nhỏ hơn) -->
+    <Style x:Key="SubSidebarButton" TargetType="Button" BasedOn="{StaticResource GothicButton}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="10,3"/>
+        <Setter Property="Height" Value="34"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+    </Style>
+
 </ResourceDictionary>

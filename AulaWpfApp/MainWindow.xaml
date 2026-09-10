@@ -9,32 +9,66 @@
         </Grid.Background>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="240"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Lớp phủ tối để chữ dễ đọc trên nền ảnh -->
         <Rectangle Fill="#0B0F0D" Opacity="0.55" Grid.ColumnSpan="2"/>
 
         <!-- SIDEBAR -->
         <Border Background="{StaticResource BgPanel}" Grid.Column="0" BorderBrush="{StaticResource BorderMist}" BorderThickness="0,0,1,0">
-            <StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
 
-                <TextBlock Text="AULA 60 HE" Foreground="{StaticResource AccentGold}" FontFamily="{StaticResource TitleFont}" FontSize="22" FontWeight="Bold" Margin="20,25,20,25"/>
+                    <TextBlock Text="AULA 60 HE" Foreground="{StaticResource AccentGold}" FontFamily="{StaticResource TitleFont}" FontSize="22" FontWeight="Bold" Margin="20,25,20,25"/>
 
-                <Button Content="Keyboard" Style="{StaticResource SidebarButton}"/>
-                <Button Content="Rapid Trigger" Style="{StaticResource SidebarButton}"/>
-                <Button Content="SOCD" Style="{StaticResource SidebarButton}"/>
-                <Button Content="RGB" Style="{StaticResource SidebarButton}"/>
-                <Button Content="Profiles" Style="{StaticResource SidebarButton}"/>
+                    <Expander Header="Keyboard" Style="{StaticResource GothicExpander}">
+                        <StackPanel>
+                            <Button Content="Overview" Style="{StaticResource SubSidebarButton}" Tag="Keyboard" Click="Navigate_Click"/>
+                        </StackPanel>
+                    </Expander>
 
-            </StackPanel>
+                    <Expander Header="Rapid Trigger" Style="{StaticResource GothicExpander}">
+                        <StackPanel>
+                            <Button Content="Travel" Style="{StaticResource SubSidebarButton}" Tag="RapidTrigger" Click="Navigate_Click"/>
+                            <Button Content="Dead Band" Style="{StaticResource SubSidebarButton}" Tag="RapidTrigger" Click="Navigate_Click"/>
+                            <Button Content="Switch" Style="{StaticResource SubSidebarButton}" Tag="RapidTrigger" Click="Navigate_Click"/>
+                            <Button Content="Polling Rate" Style="{StaticResource SubSidebarButton}" Tag="RapidTrigger" Click="Navigate_Click"/>
+                            <Button Content="Calibration" Style="{StaticResource SubSidebarButton}" Tag="RapidTrigger" Click="Navigate_Click"/>
+                        </StackPanel>
+                    </Expander>
+
+                    <Expander Header="SOCD" Style="{StaticResource GothicExpander}">
+                        <StackPanel>
+                            <Button Content="Overview" Style="{StaticResource SubSidebarButton}" Tag="Socd" Click="Navigate_Click"/>
+                        </StackPanel>
+                    </Expander>
+
+                    <Expander Header="RGB" Style="{StaticResource GothicExpander}">
+                        <StackPanel>
+                            <Button Content="Overview" Style="{StaticResource SubSidebarButton}" Tag="Rgb" Click="Navigate_Click"/>
+                        </StackPanel>
+                    </Expander>
+
+                    <Expander Header="Profiles" Style="{StaticResource GothicExpander}">
+                        <StackPanel>
+                            <Button Content="Profile Default" Style="{StaticResource SubSidebarButton}" Tag="Profiles" Click="Navigate_Click"/>
+                            <Button Content="Profile 1" Style="{StaticResource SubSidebarButton}" Tag="Profiles" Click="Navigate_Click"/>
+                            <Button Content="Profile 2" Style="{StaticResource SubSidebarButton}" Tag="Profiles" Click="Navigate_Click"/>
+                            <Button Content="Profile 3" Style="{StaticResource SubSidebarButton}" Tag="Profiles" Click="Navigate_Click"/>
+                            <Button Content="Profile 4" Style="{StaticResource SubSidebarButton}" Tag="Profiles" Click="Navigate_Click"/>
+                        </StackPanel>
+                    </Expander>
+
+                </StackPanel>
+            </ScrollViewer>
         </Border>
 
         <!-- MAIN CONTENT -->
         <Grid Grid.Column="1" Margin="40">
 
-            <StackPanel>
+            <!-- PAGE: KEYBOARD (nội dung hiện tại) -->
+            <StackPanel x:Name="KeyboardPanel" Visibility="Visible">
 
                 <TextBlock Text="AULA 60 HE" Foreground="{StaticResource TextPrimary}" FontFamily="{StaticResource TitleFont}" FontSize="30" FontWeight="Bold"/>
 
@@ -62,10 +96,37 @@
 
                 <Button Content="TEST AUDIO" Width="220" Height="46" HorizontalAlignment="Left" Style="{StaticResource GothicButton}" Margin="0,12,0,0" Click="TestAudio_Click"/>
 
+                <Button Content="TEST PER-KEY" Width="220" Height="46" HorizontalAlignment="Left" Style="{StaticResource GothicButton}" Margin="0,12,0,0" Click="TestPerKey_Click"/>
+
+
                 <TextBlock x:Name="AudioLevelText" Text="Audio Level: 0.00" Foreground="{StaticResource TextPrimary}" FontSize="14" Margin="0,18,0,0"/>
 
                 <ProgressBar x:Name="AudioLevelBar" Width="220" Height="16" Minimum="0" Maximum="1" Margin="0,8,0,0" HorizontalAlignment="Left" Background="{StaticResource BgPanelLight}" Foreground="{StaticResource AccentGold}" BorderBrush="{StaticResource BorderMist}"/>
 
+            </StackPanel>
+
+            <!-- PAGE: RAPID TRIGGER (placeholder, sẽ dựng chi tiết sau) -->
+            <StackPanel x:Name="RapidTriggerPanel" Visibility="Collapsed">
+                <TextBlock Text="Rapid Trigger" Foreground="{StaticResource TextPrimary}" FontFamily="{StaticResource TitleFont}" FontSize="30" FontWeight="Bold"/>
+                <TextBlock Text="Đang xây dựng giao diện chi tiết cho Rapid Trigger..." Foreground="{StaticResource TextSecondary}" Margin="0,15,0,0" TextWrapping="Wrap"/>
+            </StackPanel>
+
+            <!-- PAGE: SOCD (placeholder) -->
+            <StackPanel x:Name="SocdPanel" Visibility="Collapsed">
+                <TextBlock Text="SOCD" Foreground="{StaticResource TextPrimary}" FontFamily="{StaticResource TitleFont}" FontSize="30" FontWeight="Bold"/>
+                <TextBlock Text="Đang xây dựng giao diện chi tiết cho SOCD..." Foreground="{StaticResource TextSecondary}" Margin="0,15,0,0" TextWrapping="Wrap"/>
+            </StackPanel>
+
+            <!-- PAGE: RGB (placeholder) -->
+            <StackPanel x:Name="RgbPanel" Visibility="Collapsed">
+                <TextBlock Text="RGB" Foreground="{StaticResource TextPrimary}" FontFamily="{StaticResource TitleFont}" FontSize="30" FontWeight="Bold"/>
+                <TextBlock Text="Đang xây dựng giao diện chi tiết cho RGB..." Foreground="{StaticResource TextSecondary}" Margin="0,15,0,0" TextWrapping="Wrap"/>
+            </StackPanel>
+
+            <!-- PAGE: PROFILES (placeholder) -->
+            <StackPanel x:Name="ProfilesPanel" Visibility="Collapsed">
+                <TextBlock Text="Profiles" Foreground="{StaticResource TextPrimary}" FontFamily="{StaticResource TitleFont}" FontSize="30" FontWeight="Bold"/>
+                <TextBlock Text="Đang xây dựng giao diện chi tiết cho Profiles..." Foreground="{StaticResource TextSecondary}" Margin="0,15,0,0" TextWrapping="Wrap"/>
             </StackPanel>
 
         </Grid>

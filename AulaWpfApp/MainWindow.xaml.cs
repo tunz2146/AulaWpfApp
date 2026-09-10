@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace AulaWpfApp
@@ -103,6 +104,34 @@ private void TestAudio_Click(object sender, RoutedEventArgs e)
     _audioService.Start();
 }
 
+private void TestPerKey_Click(object sender, RoutedEventArgs e)
+{
+    if (!_hidService.IsConnected)
+    {
+        MessageBox.Show("Chưa kết nối. Nhấn SCAN KEYBOARD trước.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+        return;
+    }
+
+    var colors = new System.Collections.Generic.Dictionary<int, (byte, byte, byte)>
+    {
+        { AulaHidService.KeyIndexMap["A"], ((byte)255, (byte)0, (byte)0) },   // A = đỏ
+        { AulaHidService.KeyIndexMap["S"], ((byte)0, (byte)255, (byte)0) },   // S = xanh lá
+        { AulaHidService.KeyIndexMap["D"], ((byte)0, (byte)0, (byte)255) },   // D = xanh dương
+    };
+
+    bool success = _hidService.SendPerKeyColors(colors);
+
+    if (success)
+    {
+        MessageBox.Show("Đã gửi màu riêng cho A (đỏ), S (xanh lá), D (xanh dương)! Kiểm tra đèn bàn phím.",
+            "Test Per-Key", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+    else
+    {
+        MessageBox.Show("Gửi lệnh thất bại.", "Test Per-Key", MessageBoxButton.OK, MessageBoxImage.Error);
+    }
+}
+
 private void OnAudioLevelChanged(float level)
 {
     Dispatcher.Invoke(() =>
@@ -123,6 +152,39 @@ private void OnAudioLevelChanged(float level)
     byte brightness = (byte)(level * 255);
     byte[] report = AulaHidService.BuildCustomColorReport(0, 0, brightness);
     _hidService.SendRgbReport(report);
+}
+
+    private void Navigate_Click(object sender, RoutedEventArgs e)
+{
+    if (sender is not Button button || button.Tag is not string pageName)
+    {
+        return;
+    }
+
+    KeyboardPanel.Visibility = Visibility.Collapsed;
+    RapidTriggerPanel.Visibility = Visibility.Collapsed;
+    SocdPanel.Visibility = Visibility.Collapsed;
+    RgbPanel.Visibility = Visibility.Collapsed;
+    ProfilesPanel.Visibility = Visibility.Collapsed;
+
+    switch (pageName)
+    {
+        case "Keyboard":
+            KeyboardPanel.Visibility = Visibility.Visible;
+            break;
+        case "RapidTrigger":
+            RapidTriggerPanel.Visibility = Visibility.Visible;
+            break;
+        case "Socd":
+            SocdPanel.Visibility = Visibility.Visible;
+            break;
+        case "Rgb":
+            RgbPanel.Visibility = Visibility.Visible;
+            break;
+        case "Profiles":
+            ProfilesPanel.Visibility = Visibility.Visible;
+            break;
+    }
 }
 
     }
