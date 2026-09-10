@@ -1,10 +1,6 @@
 ﻿<Window x:Class="AulaWpfApp.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AULA 60 HE Control"
-        Height="650"
-        Width="1000"
-        WindowStartupLocation="CenterScreen">
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="AULA 60 HE Control" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
 
     <Grid Background="#1E1E1E">
 
@@ -16,31 +12,17 @@
         <Border Background="#252526" Grid.Column="0">
             <StackPanel>
 
-                <TextBlock Text="AULA 60 HE"
-                           Foreground="White"
-                           FontSize="24"
-                           FontWeight="Bold"
-                           Margin="25"/>
+                <TextBlock Text="AULA 60 HE" Foreground="White" FontSize="24" FontWeight="Bold" Margin="25"/>
 
-                <Button Content="Keyboard"
-                        Height="45"
-                        Margin="15,5"/>
+                <Button Content="Keyboard" Height="45" Margin="15,5"/>
 
-                <Button Content="Rapid Trigger"
-                        Height="45"
-                        Margin="15,5"/>
+                <Button Content="Rapid Trigger" Height="45" Margin="15,5"/>
 
-                <Button Content="SOCD"
-                        Height="45"
-                        Margin="15,5"/>
+                <Button Content="SOCD" Height="45" Margin="15,5"/>
 
-                <Button Content="RGB"
-                        Height="45"
-                        Margin="15,5"/>
+                <Button Content="RGB" Height="45" Margin="15,5"/>
 
-                <Button Content="Profiles"
-                        Height="45"
-                        Margin="15,5"/>
+                <Button Content="Profiles" Height="45" Margin="15,5"/>
 
             </StackPanel>
         </Border>
@@ -49,43 +31,29 @@
 
             <StackPanel>
 
-                <TextBlock Text="AULA 60 HE"
-                           Foreground="White"
-                           FontSize="32"
-                           FontWeight="Bold"/>
+                <TextBlock Text="AULA 60 HE" Foreground="White" FontSize="32" FontWeight="Bold"/>
 
-                <TextBlock Text="CONNECTED"
-                           Foreground="LimeGreen"
-                           FontSize="16"
-                           Margin="0,10"/>
+                <TextBlock x:Name="ConnectionStatusText" Text="DISCONNECTED" Foreground="OrangeRed" FontSize="16" Margin="0,10"/>
 
-                <Border Background="#2D2D30"
-                        Padding="25"
-                        Margin="0,30,0,20"
-                        CornerRadius="10">
+                <Border Background="#2D2D30" Padding="25" Margin="0,30,0,20" CornerRadius="10">
 
                     <StackPanel>
 
-                        <TextBlock Text="Keyboard Status"
-                                   Foreground="White"
-                                   FontSize="20"/>
+                        <TextBlock Text="Keyboard Status" Foreground="White" FontSize="20"/>
 
-                        <TextBlock Text="Device: AULA 60 HE"
-                                   Foreground="LightGray"
-                                   Margin="0,15,0,5"/>
+                        <TextBlock Text="Device: AULA 60 HE" Foreground="LightGray" Margin="0,15,0,5"/>
 
-                        <TextBlock Text="Firmware: Detecting..."
-                                   Foreground="LightGray"/>
+                        <TextBlock x:Name="DevicePathText" Text="Firmware: Chưa kết nối" Foreground="LightGray" TextWrapping="Wrap"/>
 
                     </StackPanel>
 
                 </Border>
 
-                <Button Content="SCAN KEYBOARD"
-                        Width="220"
-                        Height="50"
-                        HorizontalAlignment="Left"
-                        Click="ScanKeyboard_Click"/>
+                <Button Content="SCAN KEYBOARD" Width="220" Height="50" HorizontalAlignment="Left" Click="ScanKeyboard_Click"/>
+
+                <Button Content="TEST RGB" Width="220" Height="50" HorizontalAlignment="Left" Margin="0,15,0,0" Click="TestRgb_Click"/>
+
+                <Button Content="TEST CUSTOM COLOR" Width="220" Height="50" HorizontalAlignment="Left" Margin="0,15,0,0" Click="TestCustomColor_Click"/>
 
             </StackPanel>
 
