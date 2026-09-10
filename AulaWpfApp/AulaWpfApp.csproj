@@ -10,6 +10,11 @@
 
   <ItemGroup>
     <PackageReference Include="HidSharp" Version="2.6.4" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\background.jpg" />
   </ItemGroup>
 
 </Project>
